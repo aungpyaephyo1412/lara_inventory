@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\PageController::class, 'home'])->name("home");
+Route::controller(\App\Http\Controllers\InventoryController::class)
+    ->prefix("inventory")
+    ->group(function () {
+        Route::get('/',"index")->name("inventory.index");
+        Route::get('/create',"create")->name("inventory.create");
+        Route::post('/',"store")->name("inventory.store");
+        Route::get('{inventory}',"show")->name("inventory.show");
+        Route::get('{inventory}/edit',"edit")->name("inventory.edit");
+        Route::put('{inventory}/update',"update")->name("inventory.update");
+        Route::delete('{inventory}',"delete")->name("inventory.delete");
+    });
