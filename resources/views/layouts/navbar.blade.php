@@ -9,4 +9,9 @@
         <a href="{{route("inventory.create")}}" class="list-group-item list-group-item-action">Crate</a>
         <a href="{{route("inventory.index")}}" class="list-group-item list-group-item-action">List</a>
     </div>
+    <h4 class="my-1">Category</h4>
+    <div class="list-group">
+        <a href="{{route("category.create")}}" class="list-group-item list-group-item-action">Crate</a>
+        <a href="{{route("category.index")}}" class="list-group-item list-group-item-action">List</a>
+    </div>
 </aside>

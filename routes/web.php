@@ -22,6 +22,8 @@ Route::controller(\App\Http\Controllers\InventoryController::class)
         Route::post('/',"store")->name("inventory.store");
         Route::get('{inventory}',"show")->name("inventory.show");
         Route::get('{inventory}/edit',"edit")->name("inventory.edit");
-        Route::put('{inventory}/update',"update")->name("inventory.update");
+        Route::put('{inventory}',"update")->name("inventory.update");
         Route::delete('{inventory}',"delete")->name("inventory.delete");
     });
+
+Route::resource("category",\App\Http\Controllers\CategoryController::class);
