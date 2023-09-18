@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\PageController::class, 'home'])->name("home");
-Route::controller(\App\Http\Controllers\InventoryController::class)
+Route::get('/', [PageController::class, 'home'])->name("home");
+Route::controller(InventoryController::class)
     ->prefix("inventory")
     ->group(function () {
         Route::get('/',"index")->name("inventory.index");
@@ -26,4 +29,4 @@ Route::controller(\App\Http\Controllers\InventoryController::class)
         Route::delete('{inventory}',"delete")->name("inventory.delete");
     });
 
-Route::resource("category",\App\Http\Controllers\CategoryController::class);
+Route::resource("category", CategoryController::class);
