@@ -57,5 +57,6 @@
             @endforelse
             </tbody>
         </table>
+        {{$items->onEachSide(1)->links()}}
     </div>
 @endsection

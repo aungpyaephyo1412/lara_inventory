@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
-use App\Http\Requests\StoreItemRequest;
-use App\Http\Requests\UpdateItemRequest;
+use App\Models\Inventory;
+use App\Http\Requests\StoreInventoryRequest;
+use App\Http\Requests\UpdateInventoryRequest;
 
 class InventoryController extends Controller
 {
@@ -13,8 +13,7 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $items = Item::latest("id")->get();
-        return view('inventory.index',compact("items"));
+        return view('inventory.index',["items" => Inventory::paginate(10)]);
     }
 
     /**
@@ -22,56 +21,56 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        return view('inventory.create');
+        return view("inventory.create");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreItemRequest $request)
+    public function store(StoreInventoryRequest $request)
     {
-        $items = new Item();
-        $items->name = $request->item_name;
-        $items->price = $request->item_price;
-        $items->stock = $request->item_stock;
-        $items->save();
+        $inventory = new Inventory();
+        $inventory->name = $request->item_name;
+        $inventory->price = $request->item_price;
+        $inventory->stock = $request->item_stock;
+        $inventory->save();
         return redirect()->route("inventory.index");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Item $item)
+    public function show(Inventory $inventory)
     {
-        return view("inventory.show",compact("item"));
+       return view("inventory.show",["item" => $inventory]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Item $item)
+    public function edit(Inventory $inventory)
     {
-        return view('inventory.edit',compact("item"));
+        return view("inventory.edit",["item" => $inventory]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateItemRequest $request, Item $item)
+    public function update(UpdateInventoryRequest $request, Inventory $inventory)
     {
-        $item->name = $request->item_name;
-        $item->price = $request->item_price;
-        $item->stock = $request->item_stock;
-        $item->update();
+        $inventory->name = $request->item_name;
+        $inventory->price = $request->item_price;
+        $inventory->stock = $request->item_stock;
+        $inventory->update();
         return redirect()->route("inventory.index");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Item $item)
+    public function destroy(Inventory $inventory)
     {
-        $item->delete();
+        $inventory->delete();
         return redirect()->back();
     }
 }
