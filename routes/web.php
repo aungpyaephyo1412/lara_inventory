@@ -26,7 +26,7 @@ Route::controller(InventoryController::class)
         Route::get('{inventory}',"show")->name("inventory.show");
         Route::get('{inventory}/edit',"edit")->name("inventory.edit");
         Route::put('{inventory}',"update")->name("inventory.update");
-        Route::delete('{inventory}',"delete")->name("inventory.delete");
+        Route::delete('{inventory}',"destroy")->name("inventory.delete");
     });
 
 Route::resource("category", CategoryController::class);

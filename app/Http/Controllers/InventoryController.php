@@ -3,28 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
 
 class InventoryController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $items = Item::all();
+        $items = Item::latest("id")->get();
         return view('inventory.index',compact("items"));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         return view('inventory.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreItemRequest $request)
     {
-        $request->validate([
-           "item_name" => "required",
-           "item_price" => "required",
-           "item_stock" => "required"
-        ]);
         $items = new Item();
         $items->name = $request->item_name;
         $items->price = $request->item_price;
@@ -32,27 +37,28 @@ class InventoryController extends Controller
         $items->save();
         return redirect()->route("inventory.index");
     }
-    public function show($id)
-    {
-        $item = Item::findOrFail($id);
-        return view("inventory.show",compact("item"));
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(Item $item)
+    {
+        return view("inventory.show",compact("item"));
     }
 
-    public function edit($id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Item $item)
     {
-        $item = Item::findOrfail($id);
         return view('inventory.edit',compact("item"));
     }
 
-    public function update($id,Request $request)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateItemRequest $request, Item $item)
     {
-        $request->validate([
-            "item_name" => "required",
-            "item_price" => "required",
-            "item_stock" => "required"
-        ]);
-        $item = Item::findOrFail($id);
         $item->name = $request->item_name;
         $item->price = $request->item_price;
         $item->stock = $request->item_stock;
@@ -60,9 +66,12 @@ class InventoryController extends Controller
         return redirect()->route("inventory.index");
     }
 
-    public function delete($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Item $item)
     {
-        Item::findOrFail($id)->delete();
+        $item->delete();
         return redirect()->back();
     }
 }
