@@ -21,8 +21,9 @@ class UpdateInventoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = request()->item->id;
         return [
-            "item_name" => "required",
+            "item_name" => "required|unique:items,name,$id",
             "item_price" => "required",
             "item_stock" => "required"
         ];
