@@ -13,9 +13,11 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $items = Inventory::whereIn("id",[1,5])->get();
-        return $items;
-//        return view('inventory.index',["items" => Inventory::paginate(10)]);
+        $items = Inventory::when(request()->has("keyword"),function ($query){
+            $keyword = request()->keyword;
+            $query->where("name","like","%".$keyword."%");
+    })->paginate(10)->withQueryString();
+        return view('inventory.index',compact("items"));
     }
 
     /**
