@@ -13,7 +13,9 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        return view('inventory.index',["items" => Inventory::paginate(10)]);
+        $items = Inventory::whereIn("id",[1,5])->get();
+        return $items;
+//        return view('inventory.index',["items" => Inventory::paginate(10)]);
     }
 
     /**
